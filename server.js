@@ -21,7 +21,7 @@ server.use(express.urlencoded({ extended: true }));
 
 
 //------------ routes -------------------------------------------------------------------
-server.use("/api/users",  userRouter);
+server.use("/api/v1/users",  userRouter);
 
 
 
