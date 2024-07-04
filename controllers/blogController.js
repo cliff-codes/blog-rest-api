@@ -20,3 +20,13 @@ export const postABlog = async(req, res, next) => {
         next(errorHandler(500, "Error creating blog"))
     }
 }
+
+export const getAllBlogs = async(req, res, next) => {
+    try {
+        const allBlogs = await Blog.find()
+        await res.json(allBlogs)
+        
+    } catch (error) {
+        next(errorHandler(500, "Error fetching blogs"))
+    }
+}

@@ -1,10 +1,12 @@
 import express from 'express';
-import { postABlog } from '../controllers/blogController.js';
+import { getAllBlogs, postABlog } from '../controllers/blogController.js';
+import { verifyAccessToken } from '../utils/verifyToken.js';
 
 
 const router = express.Router();
 
-router.post("/create", postABlog)
+router.post("/create", verifyAccessToken, postABlog)
+router.get("/", getAllBlogs)
 
 
 export default router
