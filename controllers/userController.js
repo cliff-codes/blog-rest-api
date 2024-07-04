@@ -56,7 +56,7 @@ export const loginUser = async (req, res, next) => {
         console.log(expiryDate)
 
         //return user_details without the password
-        res.cookie("access_token", token, {expires: expiryDate}).status(200).json({...user[0]._doc, password: undefined})
+        res.cookie("access_token", token, { httpOnly: true , expires: expiryDate}).status(200).json({...user[0]._doc, password: undefined})
         
     } catch (error) {
         console.log(error)
