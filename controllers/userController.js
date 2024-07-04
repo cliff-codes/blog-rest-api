@@ -63,3 +63,8 @@ export const loginUser = async (req, res, next) => {
         next(errorHandler(503, "Login failed"))
     }
 }
+
+//-----------------------logout user--------------------------------
+export const logoutUser = async(req, res) => {
+    res.clearCookie("access_token").status(200).json("Logged out successfully")
+}
