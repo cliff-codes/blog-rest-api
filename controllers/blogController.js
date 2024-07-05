@@ -7,7 +7,7 @@ export const postABlog = async(req, res, next) => {
 
     const author = req.user.id
 
-    try {
+    try {   
         const newBlog = await Blog.create({
             title,
             content,
@@ -22,11 +22,28 @@ export const postABlog = async(req, res, next) => {
 }
 
 export const getAllBlogs = async(req, res, next) => {
+    console.log("get all blogs")
     try {
         const allBlogs = await Blog.find()
         await res.json(allBlogs)
         
     } catch (error) {
         next(errorHandler(500, "Error fetching blogs"))
+    }
+}
+
+export const getABlog = async(req, res, next) => {
+    const {id} = req.params
+    console.log(`This is the blog id ${id}`)
+    if(!id) return next(errorHandler(400, "id required"))
+
+    try {
+        const blog = await Blog.findById(id)
+        if(!blog) return next(errorHandler(404, "Blog not found"))
+
+        await res.status(200).json(blog)
+        
+    } catch (error) {
+        next(errorHandler(500, "Error fetching blog"))
     }
 }
