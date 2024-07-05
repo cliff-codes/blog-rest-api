@@ -1,5 +1,4 @@
 import { Blog } from "../models/blogModel.js"
-import { User } from "../models/userModel.js"
 import { errorHandler } from "../utils/errorHandler.js"
 
 export const postABlog = async(req, res, next) => {
@@ -7,8 +6,6 @@ export const postABlog = async(req, res, next) => {
     if(!title || !content) return(next(400, "The following feilds are required : title, content"))
 
     const author = req.user.id
-
-    console.log(author)
 
     try {   
         const newBlog = await Blog.create({
