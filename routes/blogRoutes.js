@@ -1,5 +1,5 @@
 import express from 'express';
-import { getABlog, getAllBlogs, postABlog } from '../controllers/blogController.js';
+import { getABlog, getAllBlogs, postABlog, updateBlog } from '../controllers/blogController.js';
 import { verifyAccessToken } from '../utils/verifyToken.js';
 
 
@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.post("/create", verifyAccessToken, postABlog)
 router.get("/", getAllBlogs)
-router.get("/:id", getABlog)
+router.get("/:id", getABlog).post("/:id",verifyAccessToken, updateBlog)
+
 
 
 export default router
