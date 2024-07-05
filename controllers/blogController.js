@@ -1,6 +1,9 @@
 import { Blog } from "../models/blogModel.js"
 import { errorHandler } from "../utils/errorHandler.js"
 
+
+
+//------------------------------create a new blog----------------------------------------------------
 export const postABlog = async(req, res, next) => {
     const {title, content} = req.body
     if(!title || !content) return(next(400, "The following feilds are required : title, content"))
@@ -21,6 +24,10 @@ export const postABlog = async(req, res, next) => {
     }
 }
 
+
+
+
+//------------------------------get all blogs----------------------------------------------------
 export const getAllBlogs = async(req, res, next) => {
   
     try {
@@ -32,6 +39,10 @@ export const getAllBlogs = async(req, res, next) => {
     }
 }
 
+
+
+
+//------------------------------get a blog----------------------------------------------------
 export const getABlog = async(req, res, next) => {
     const {id} = req.params
 
@@ -50,6 +61,8 @@ export const getABlog = async(req, res, next) => {
 
 
 
+
+//------------------------------update a blog----------------------------------------------------
 export const updateBlog = async(req, res, next) => {
     const {id} = req.params
 
@@ -81,6 +94,8 @@ export const updateBlog = async(req, res, next) => {
 
 
 
+
+//------------------------------delete a blog----------------------------------------------------
 export const deleteBlog = async(req, res, next) => {
     const {id} = req.params
 
@@ -98,3 +113,5 @@ export const deleteBlog = async(req, res, next) => {
         next(errorHandler(500, "Error deleting blog"))
     }
 }
+
+
