@@ -50,7 +50,6 @@ export const getABlog = async(req, res, next) => {
 
 
 
-
 export const updateBlog = async(req, res, next) => {
     const {id} = req.params
 
@@ -77,5 +76,25 @@ export const updateBlog = async(req, res, next) => {
 
     } catch (error) {
         next(errorHandler(500, "Error updating blog"))
+    }
+}
+
+
+
+export const deleteBlog = async(req, res, next) => {
+    const {id} = req.params
+
+    const blog = await Blog.findById(id)
+
+    if(!blog) return next(errorHandler(404, "Blog not found"))
+
+    if(blog.author.toString() !== req.user.id) return next(errorHandler(401, "Access denied. you cannot delete blog"))
+
+    try {
+        const deletedBlog = await Blog.findByIdAndDelete(id)
+        await res.status(200).json({ message: "Blog deleted successfully"})
+
+    } catch (error) {
+        next(errorHandler(500, "Error deleting blog"))
     }
 }
