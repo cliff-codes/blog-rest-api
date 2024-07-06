@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    emailVerified: {
+        type: Boolean,
+        default: false
+    },
     blogs: [
         {
             type: mongoose.Schema.Types.ObjectId,

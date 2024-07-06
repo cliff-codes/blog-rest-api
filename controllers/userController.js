@@ -3,9 +3,18 @@ import  bcryptjs  from "bcryptjs"
 import { User } from "../models/userModel.js"
 import { configDotenv } from "dotenv"
 import jwt from "jsonwebtoken"
+import nodemailer from "nodemailer"
 
-
+//-------------------------configurations----------------------
 configDotenv({path: ".env.local"})
+
+const trasnporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: process.env.EMAIL,
+        pass:  process.env.EMAIL_PASSWORD
+    }
+})
 
 //------------------------create a new user---------------------
 
@@ -15,15 +24,56 @@ export const createUser = async(req, res, next) => {
     const salt = bcryptjs.genSaltSync(10)
     const hashedPassword = bcryptjs.hashSync(password, salt)
     
+    //---signing email verification token -----//
+    const emailVerificationToken = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: "2h"} )
+    const mailOptions = {
+        from: 'simplecodes2580@gmail.com',
+        to: email,
+        subject: 'Email Verification',
+        text: `Click this link to verify your email: http://localhost:3001/verifyEmail/${emailVerificationToken}`
+    };
+
     try {
         //save user in DB
         const newUser = await User.create({username, email, password : hashedPassword})
         await newUser.save()
+
+        trasnporter.sendMail(mailOptions, (err, res) => {
+            if(err) return next(errorHandler(500, "Error sending email"))
+            console.log(res)
+            console.log("Email sent")
+        })
+        
         //return all deatails of newUser but the password
         await res.status(201).json({...newUser._doc, password: undefined})
 
     } catch (error) {
         next(errorHandler(503, "Signing up failed"))
+    }
+}
+
+
+
+//-------------------------verify user email --------------------
+
+export const verifyMail = async (req, res, next) => {
+    const {emailVerificationToken} = req.params
+    console.log(emailVerificationToken)
+
+    try {
+        const decoded = jwt.verify(emailVerificationToken, process.env.JWT_SECRET)
+
+        const user = await User.findOne({email: decoded.email})
+
+        if(!user) return next(errorHandler(404, "User does not exist"))
+
+        user.emailVerified = true
+        await user.save()
+
+        await res.status(200).json({message: "Email verified successfully"})
+
+    } catch (error) {
+        next(errorHandler(500, "Error verifying email"))
     }
 }
 
