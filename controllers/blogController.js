@@ -115,3 +115,19 @@ export const deleteBlog = async(req, res, next) => {
 }
 
 
+//------------------------------geting a writers blogs--------------------
+export const getMyBlogs = async (req, res, next) => {
+    console.log(req.user)
+    const id = req.user.id
+
+    if(!id) return next(errorHandler(401, 'Access denied'))
+
+    try {
+        const blogs = await Blog.find({author: id})
+        console.log(blogs)
+
+        await res.status(200).json(blogs)
+    } catch (error) {
+        next(errorHandler(500, "Error getting blogs"))
+    }
+}

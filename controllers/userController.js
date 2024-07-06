@@ -53,7 +53,7 @@ export const loginUser = async (req, res, next) => {
 
         //cookie expires in
         const expiryDate = new Date(Date.now() + 3600000)
-        console.log(expiryDate)
+        console.log(expiryDate)        
 
         //return user_details without the password
         res.cookie("access_token", token, { httpOnly: true , expires: expiryDate}).status(200).json({...user[0]._doc, password: undefined})
@@ -67,4 +67,11 @@ export const loginUser = async (req, res, next) => {
 //-----------------------logout user--------------------------------
 export const logoutUser = async(req, res) => {
     res.clearCookie("access_token").status(200).json("Logged out successfully")
+}
+
+
+
+//-------------------------verify email------------------------------
+export const verifyEmail = async(req, res, next) => {
+    
 }
