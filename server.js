@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { configDotenv } from "dotenv";
 import userRouter  from "./routes/userRoutes.js"
 import blogRouter  from "./routes/blogRoutes.js"
-import { verifyMail } from "./controllers/userController.js";
+import { verifyEmail } from "./controllers/userController.js";
 
 
 configDotenv({path: ".env.local"});
@@ -25,7 +25,7 @@ server.use(express.urlencoded({ extended: true }));
 //------------ routes -------------------------------------------------------------------
 server.use("/api/v1/users",  userRouter)
 server.use("/api/v1/blogs" ,blogRouter)
-server.use("/verifyEmail/:emailVerificationToken", verifyMail)
+server.use("/verifyEmail/:emailVerificationToken", verifyEmail)
 
 
 

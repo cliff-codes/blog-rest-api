@@ -56,7 +56,7 @@ export const createUser = async(req, res, next) => {
 
 //-------------------------verify user email --------------------
 
-export const verifyMail = async (req, res, next) => {
+export const verifyEmail = async (req, res, next) => {
     const {emailVerificationToken} = req.params
     console.log(emailVerificationToken)
 
@@ -119,9 +119,3 @@ export const logoutUser = async(req, res) => {
     res.clearCookie("access_token").status(200).json("Logged out successfully")
 }
 
-
-
-//-------------------------verify email------------------------------
-export const verifyEmail = async(req, res, next) => {
-    
-}
