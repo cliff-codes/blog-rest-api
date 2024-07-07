@@ -20,7 +20,11 @@ const blogSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Comment'
         }
-    ]
+    ],
+    coverImg: {
+        type: String,
+        default: null // will be populated with a default image from blogger.com
+    }
 })
 
 export const Blog  = mongoose.model('Blog', blogSchema)
