@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 import { configDotenv } from "dotenv";
 import userRouter  from "./routes/userRoutes.js"
 import blogRouter  from "./routes/blogRoutes.js"
+import imageRouter from "./routes/fileUploadRoute.js"
 import { verifyEmail } from "./controllers/userController.js";
+
 
 
 configDotenv({path: ".env.local"});
@@ -14,7 +16,7 @@ const url = `mongodb+srv://simplecodes2580:${process.env.DATABASE_PASSWORD}@clus
 //connect to DB
 mongoose.connect(url)
    .then(() => console.log("Connected to MongoDB"))
-   .catch((err) => console.error("Connection error:", err));
+   .catch((err) => console.error("Connection error:", err)); 
 
 
 //------------ general configuration ----------------------------------------------------
@@ -22,10 +24,12 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 
+
 //------------ routes -------------------------------------------------------------------
 server.use("/api/v1/users",  userRouter)
 server.use("/api/v1/blogs" ,blogRouter)
 server.use("/verifyEmail/:emailVerificationToken", verifyEmail)
+server.use("/api/v1/images", imageRouter)
 
 
 
