@@ -14,6 +14,11 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    avatar: {
+        type: String,
+        default: null, // will be populated with a default image from blogger.com
+        required: false
+    },
     emailVerified: {
         type: Boolean,
         default: false
