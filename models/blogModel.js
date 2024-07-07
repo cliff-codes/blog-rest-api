@@ -24,7 +24,8 @@ const blogSchema = new mongoose.Schema({
     coverImg: {
         type: String,
         default: null // will be populated with a default image from blogger.com
-    }
+    },
+    blogImgs: [{ type: String }]
 })
 
 export const Blog  = mongoose.model('Blog', blogSchema)
