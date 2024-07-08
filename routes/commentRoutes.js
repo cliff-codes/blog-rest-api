@@ -1,11 +1,12 @@
 import express from "express"
-import { postComment } from "../controllers/commentController.js"
+import { editComment, postComment } from "../controllers/commentController.js"
 import { verifyAccessToken } from "../utils/verifyToken.js"
 
 
 const router = express.Router()
 
 router.post('/add/:blogId', verifyAccessToken ,postComment)
+router.patch('/edit/:commentId', verifyAccessToken, editComment)
 
 
 export default router
