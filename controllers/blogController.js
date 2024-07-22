@@ -131,3 +131,9 @@ export const getMyBlogs = async (req, res, next) => {
         next(errorHandler(500, "Error getting blogs"))
     }
 }
+
+
+//-------------------------------upVote or like a blog/Article -------------------
+export const upVote = async (req, res, next) => {
+    
+}

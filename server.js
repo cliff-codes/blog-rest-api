@@ -6,7 +6,7 @@ import blogRouter  from "./routes/blogRoutes.js"
 import commentRouter from "./routes/commentRoutes.js"
 import imageRouter from "./routes/fileUploadRoute.js"
 import { verifyEmail } from "./controllers/userController.js";
-
+import cors from 'cors'
 
 
 configDotenv({path: ".env.local"});
@@ -23,6 +23,14 @@ mongoose.connect(url)
 //------------ general configuration ----------------------------------------------------
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+//add cors origin setup
+const corsOptions = {
+    origin: "http://localhost:3000",
+    methods: "GET, POST, PUT, DELETE, PATCH",
+    credentials: true,
+};
+server.use(cors(corsOptions));
+
 
 
 
