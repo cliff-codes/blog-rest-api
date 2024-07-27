@@ -20,6 +20,13 @@ const trasnporter = nodemailer.createTransport({
 
 export const createUser = async(req, res, next) => {
     const {username, email, password } = req.body
+
+    //does email already exist?
+    const userExist = await User.find({ email })
+    console.log(userExist)
+    if(userExist.length > 0) {
+        return next(errorHandler(400, "Email already exists"))
+    }
     
     const salt = bcryptjs.genSaltSync(10)
     const hashedPassword = bcryptjs.hashSync(password, salt)
@@ -48,6 +55,7 @@ export const createUser = async(req, res, next) => {
         await res.status(201).json({...newUser._doc, password: undefined})
 
     } catch (error) {
+        console.log(error)
         next(errorHandler(503, "Signing up failed"))
     }
 }
@@ -106,12 +114,24 @@ export const loginUser = async (req, res, next) => {
         console.log(expiryDate)        
 
         //return user_details without the password
-        res.cookie("access_token", token, { httpOnly: true , expires: expiryDate}).status(200).json({...user[0]._doc, password: undefined})
+        return res.cookie("access_token", token, 
+            { 
+              secure: true,
+              domain: "http://localhost:3000" ,
+
+              expires: expiryDate,
+              httpOnly: true
+
+            }).status(200).json({...user[0]._doc, password: undefined})
         
     } catch (error) {
         console.log(error)
         next(errorHandler(503, "Login failed"))
     }
+}
+
+export const loginStatus = (req, res) => {
+    res.status(200).json({authenticated: true, user: req.user})
 }
 
 //-----------------------logout user--------------------------------
