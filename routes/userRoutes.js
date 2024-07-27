@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/register', createUser) 
 router.post('/login', loginUser) 
 router.get('/status', verifyAccessToken, loginStatus)
+router.get('/logout', loginStatus)
 
 
 
