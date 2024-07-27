@@ -116,12 +116,9 @@ export const loginUser = async (req, res, next) => {
         //return user_details without the password
         return res.cookie("access_token", token, 
             { 
-              secure: true,
-              domain: "http://localhost:3000" ,
-
               expires: expiryDate,
-              httpOnly: true
-
+              httpOnly: true,
+              secure: process.env.NODE_ENV === 'production'
             }).status(200).json({...user[0]._doc, password: undefined})
         
     } catch (error) {

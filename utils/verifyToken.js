@@ -5,7 +5,11 @@ import { configDotenv } from "dotenv"
 configDotenv({path: ".env.local"})
 
 export const verifyAccessToken = (req, res, next) => {
-    const access_token = req.headers.authorization
+    const access_token = req.cookies.access_token
+    console.log('----------------')
+    console.log(access_token)
+    console.log('----------------')
+
 
     if(!access_token) return next(errorHandler(401, "Access Denied"))
 
