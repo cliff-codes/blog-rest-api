@@ -5,7 +5,7 @@ const blogSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
-    },
+    },  
     content: {
         type: String,
         required: true
@@ -33,7 +33,6 @@ const blogSchema = new mongoose.Schema({
         type: String,
         default: null // will be populated with a default image from blogger.com
     },
-    blogImgs: [{ type: String }]
 })
 
 export const Blog  = mongoose.model('Blog', blogSchema)

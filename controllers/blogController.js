@@ -31,7 +31,7 @@ export const postABlog = async(req, res, next) => {
 export const getAllBlogs = async(req, res, next) => {
   
     try {
-        const allBlogs = await Blog.find()
+        const allBlogs = await Blog.find().populate('author').exec()
         await res.json(allBlogs)
         
     } catch (error) {
