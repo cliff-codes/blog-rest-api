@@ -8,6 +8,7 @@ import imageRouter from "./routes/fileUploadRoute.js"
 import { verifyEmail } from "./controllers/userController.js";
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import { verifyAccessToken } from "./utils/verifyToken.js";
 
 
 configDotenv({path: ".env.local"});
@@ -41,7 +42,7 @@ server.use("/api/v1/users",  userRouter)
 server.use("/api/v1/blogs" ,blogRouter)
 server.use("/api/v1/comments", commentRouter)
 server.use("/verifyEmail/:emailVerificationToken", verifyEmail)
-server.use("/api/v1/images", imageRouter)
+server.use("/api/v1/images", verifyAccessToken ,imageRouter)
 
 
 

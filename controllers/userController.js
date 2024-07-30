@@ -138,14 +138,16 @@ export const logoutUser = async(req, res) => {
 
 //-------------------------get user--------------------------------
 export const getUser = async(req, res) => {
+    console.log(req.params)  
    try {
-    const user = await User.findById(req.user.id)
-
+    const user = await User.findById(req.params.id)
+ 
     if(!user) return next(errorHandler(404, "User not found"))
 
-    res.status(200).json(user)
+    res.status(200).json({...user._doc, password: undefined})
    } catch (error) {
-       next(errorHandler(500, "Error getting user"))
-   }
+       next(errorHandler(500, "Error getting user")) 
+   }  
 }
 
+  
